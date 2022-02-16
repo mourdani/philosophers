@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 02:18:16 by mourdani          #+#    #+#             */
-/*   Updated: 2022/02/16 05:28:36 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/02/16 05:31:34 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	*func()
 {
-	sleep(30);
+	usleep(100);
 	printf("a philo is created\n");
 	return (NULL);
 }
