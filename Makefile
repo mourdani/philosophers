@@ -1,7 +1,7 @@
 
 NAME	= philo
 
-SRC	= src/philo.c\
+SRC	= src/*.c\
 
 OBJ	= ${patsubst src/%, obj/%, $(SRC:.c=.o)}
 
@@ -13,11 +13,11 @@ CLEAN_O	= @echo "Object files removed."
 CLEAN_A	= @echo "Environemment reset succefully."
 DONE	= @echo "Philo is ready to use!"
 
-$(NAME): $(OBJ) 
+$(NAME): obj $(OBJ) 
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	$(DONE)
 
-all:	obj $(NAME) 
+all:	 $(NAME) 
 
 
 obj:
