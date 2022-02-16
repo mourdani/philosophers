@@ -1,7 +1,8 @@
 
 NAME	= philo
 
-SRC	= src/*.c\
+SRC	= src/philo.c \
+	  src/utils.c \
 
 OBJ	= ${patsubst src/%, obj/%, $(SRC:.c=.o)}
 
@@ -13,8 +14,9 @@ CLEAN_O	= @echo "Object files removed."
 CLEAN_A	= @echo "Environemment reset succefully."
 DONE	= @echo "Philo is ready to use!"
 
+
 $(NAME): obj $(OBJ) 
-	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -pthread -o $(NAME)
 	$(DONE)
 
 all:	 $(NAME) 
