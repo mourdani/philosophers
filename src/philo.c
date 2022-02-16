@@ -6,16 +6,20 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 02:18:16 by mourdani          #+#    #+#             */
-/*   Updated: 2022/02/16 05:31:34 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/02/16 07:33:29 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
+// = PTHREAD_MUTEX_INITIALIZER;
+
 void	*func()
 {
-	usleep(100);
-	printf("a philo is created\n");
+	pthread_mutex_lock( &mutex1 );
+	printf("philo n: %ld\t", pthread_self());
+	printf("is created\n");
+	pthread_mutex_unlock( &mutex1 );
 	return (NULL);
 }
 
@@ -27,26 +31,26 @@ int	init_threads(int n_of_threads)
 	i = 0;
 	while (i < n_of_threads)
 	{
-		printf("i = % d\t", i);
+//		printf("i = % d\t", i);
 		if (pthread_create(&philo[i], NULL, &func, NULL) < 0)
 			return (0);
 		i++;
 	}
+	while (--i >= 0)
+		pthread_join(philo[i], NULL);
 	return (1);
 }
 
 void	philosophers(int n_of_philos, int time_to_die, int time_to_eat, int time_to_sleep, int must_eat_n_times)
 {
+	static pthread_mutex_t mutex1;
+
 	if (!init_threads(n_of_philos))
-	{
 		printf("pthread error\n");
-	}
-	printf("number of philosophers: %d \n", n_of_philos);
-	printf("time to die : %d \n", time_to_die);
-	printf("time to eat : %d \n", time_to_eat);
-	printf("time to sleep : %d \n", time_to_sleep);
 	(void)must_eat_n_times;
-//	printf("must eat n times: %d \n", must_eat_n_times);
+	(void)time_to_die;
+	(void)time_to_eat;
+	(void)time_to_sleep;
 }
 
 int	main(int ac, char **av)
@@ -63,3 +67,15 @@ int	main(int ac, char **av)
 	printf("working!!\n");
 	return (0);
 }
+
+
+
+
+
+
+// TESTING
+//	printf("number of philosophers: %d \n", n_of_philos);
+//	printf("time to die : %d \n", time_to_die);
+//	printf("time to eat : %d \n", time_to_eat);
+//	printf("time to sleep : %d \n", time_to_sleep);
+//	printf("must eat n times: %d \n", must_eat_n_times);
