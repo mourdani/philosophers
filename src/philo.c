@@ -6,65 +6,110 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 02:18:16 by mourdani          #+#    #+#             */
-/*   Updated: 2022/02/16 07:33:29 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/16 03:24:58 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
 // = PTHREAD_MUTEX_INITIALIZER;
-
-void	*func()
+int	check_args(int ac, char **av)
 {
-	pthread_mutex_lock( &mutex1 );
-	printf("philo n: %ld\t", pthread_self());
-	printf("is created\n");
-	pthread_mutex_unlock( &mutex1 );
-	return (NULL);
+	int i;
+
+	i = 0;
+	if (ac > 6 || ac < 5)
+		return (ERROR);
+	printf("%s \n", av[0]);
+	while (i++ < ac - 1)
+	{
+		if (av[i][0] == '-' && ft_is_number(av[i]) != OK)
+			return (ERROR);
+	}
+	return (OK);
 }
 
-int	init_threads(int n_of_threads)
+pthread_mutex_t	*init_forks(t_table table)
 {
-	pthread_t philo[n_of_threads];
+	pthread_mutex_t	*forks;
 	int	i;
 
 	i = 0;
-	while (i < n_of_threads)
+	forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * table.np);
+	if (forks == NULL)
+		return (NULL);
+	while (i < table.np)
 	{
-//		printf("i = % d\t", i);
-		if (pthread_create(&philo[i], NULL, &func, NULL) < 0)
-			return (0);
+		if (pthread_mutex_init(&forks[i], 0) != 0)
+			return (NULL);
 		i++;
 	}
-	while (--i >= 0)
-		pthread_join(philo[i], NULL);
-	return (1);
+	return (forks);
 }
 
-void	philosophers(int n_of_philos, int time_to_die, int time_to_eat, int time_to_sleep, int must_eat_n_times)
+t_philo	**init_philos(t_table table)
 {
-	static pthread_mutex_t mutex1;
+	t_philo **philos;
+	int i;
 
-	if (!init_threads(n_of_philos))
-		printf("pthread error\n");
-	(void)must_eat_n_times;
-	(void)time_to_die;
-	(void)time_to_eat;
-	(void)time_to_sleep;
+	i = 0;
+	philos = (t_philo **)malloc(sizeof(t_philo **) * table.np);
+	if (philos == NULL)
+		return (NULL);
+	while (i < table.np)
+	{
+		philos[i]->id = i;
+		philos[i]->nta = 0;
+		philos[i]->lf = i;
+		philos[i]->rf = (i + 1) % philos[i]->table->np;
+
+	}
+}
+
+t_table	fill_table(int ac, char **av)
+{
+	t_table table;
+	int i;
+
+	i = 1;
+	table.np = ft_atoi(av[i++]);
+	table.ttd = ft_atoi(av[i++]);
+	table.tte = ft_atoi(av[i++]);
+	table.tts = ft_atoi(av[i++]);
+	if (ac == 6)
+		table.ntpe = ft_atoi(av[i]);
+	else 
+		table.ntpe = -1;
+	table.forks = init_forks(table);
+	if (table.forks == NULL)
+		return (NULL);
+	table.philo = init_philos(table);
+	if (table.philo == NULL)
+		return (NULL);
+
+	return (table);
 }
 
 int	main(int ac, char **av)
 {
-	if (ac == 5)
-		philosophers(ft_atoi(av[1]), ft_atoi(av[2]), ft_atoi(av[3]), ft_atoi(av[4]), 0);
-	else if (ac == 6)
-		philosophers(ft_atoi(av[1]), ft_atoi(av[2]), ft_atoi(av[3]), ft_atoi(av[4]), ft_atoi(av[5]));
-	else
+	t_table table;
+
+	if (check_args(ac, av) != OK)
 	{
-		printf("USAGE: ./philo 	number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]");
-		return (0);
+		puterr("Error: Invalid Argument\n");
+		puterr("USAGE: ./philo 	number_of_philosopers ");
+		puterr("time_to_die time_to_eat time_to_sleep ");
+		puterr("[number_of_times_each_philosopher_must_eat]");
+		return (ERROR);
 	}
+	table = fill_table(ac, av);
 	printf("working!!\n");
+	printf("------------------------------------------------------\n");
+	printf("number of philosophers: %d \n", table.np);
+	printf("time to die : %d \n", table.ttd);
+	printf("time to eat : %d \n", table.tte);
+	printf("time to sleep : %d \n", table.tts);
+	printf("must eat n times: %d \n", table.ntpe);
 	return (0);
 }
 
@@ -74,8 +119,10 @@ int	main(int ac, char **av)
 
 
 // TESTING
-//	printf("number of philosophers: %d \n", n_of_philos);
-//	printf("time to die : %d \n", time_to_die);
-//	printf("time to eat : %d \n", time_to_eat);
-//	printf("time to sleep : %d \n", time_to_sleep);
-//	printf("must eat n times: %d \n", must_eat_n_times);
+//	printf("working!!\n");
+//	printf("------------------------------------------------------\n");
+//	printf("number of philosophers: %d \n", table.np);
+//	printf("time to die : %d \n", table.ttd);
+//	printf("time to eat : %d \n", table.tte);
+//	printf("time to sleep : %d \n", table.tts);
+//	printf("must eat n times: %d \n", table.ntpe);

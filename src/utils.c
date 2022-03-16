@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 03:36:18 by mourdani          #+#    #+#             */
-/*   Updated: 2022/02/16 07:33:32 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/16 01:05:12 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,32 @@ bool	ft_is_plus_or_minus(char character)
 bool	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
+}
+
+void	puterr(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != EOL)
+	{
+		write(2, &str[i], 1);
+		i++;
+	}
+}
+
+int	ft_is_number(char *string)
+{
+	int	i;
+
+	i = 0;
+	while (string[i] != EOL)
+	{
+		if (string[i] <= '0' || string[i] >= '9')
+			return (ERROR);
+		i++;
+	}
+	return (OK);
 }
 
 int	ft_atoi(const char *number_pointer)

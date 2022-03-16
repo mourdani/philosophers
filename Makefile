@@ -1,4 +1,3 @@
-
 NAME	= philo
 
 SRC	= src/philo.c \
