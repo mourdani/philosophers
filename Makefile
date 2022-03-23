@@ -1,7 +1,10 @@
 NAME	= philo
 
-SRC	= src/philo.c \
-	  src/utils.c \
+SRC	= philo.c \
+	  utils.c \
+		actions.c \
+		init.c \
+		thread_funcs.c
 
 OBJ	= ${patsubst src/%, obj/%, $(SRC:.c=.o)}
 
@@ -14,11 +17,11 @@ CLEAN_A	= @echo "Environemment reset succefully."
 DONE	= @echo "Philo is ready to use!"
 
 
-$(NAME): obj $(OBJ) 
+$(NAME): obj $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -pthread -o $(NAME)
 	$(DONE)
 
-all:	 $(NAME) 
+all:	 $(NAME)
 
 
 obj:
