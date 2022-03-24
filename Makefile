@@ -1,10 +1,10 @@
 NAME	= philo
 
-SRC	= philo.c \
-	  utils.c \
-		actions.c \
-		init.c \
-		thread_funcs.c
+SRC	= src/philo.c \
+	  src/utils.c \
+	  src/actions.c \
+	  src/init.c \
+	  src/thread_funcs.c
 
 OBJ	= ${patsubst src/%, obj/%, $(SRC:.c=.o)}
 

@@ -6,11 +6,11 @@
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 20:01:59 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/23 22:49:22 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/24 00:32:19 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
 int	check_args(int ac, char **av)
 {

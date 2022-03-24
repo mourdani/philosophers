@@ -6,19 +6,14 @@
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 23:36:31 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/23 22:48:03 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/24 00:50:19 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
-t_sim	*init_table(int ac, char **av)
+int	init_values(int ac, char **av, t_sim *table)
 {
-	t_sim	*table;
-
-	table = (t_sim *) malloc(sizeof(t_sim));
-	if (table == NULL)
-		return (NULL);
 	table->nop = ft_atoi(av[1]);
 	table->tdie = ft_atoi(av[2]);
 	table->teat = ft_atoi(av[3]);
@@ -27,13 +22,25 @@ t_sim	*init_table(int ac, char **av)
 	table->death = 1;
 	if (ac - 1 == 5)
 		table->ntpme = ft_atoi(av[5]);
-  if (table->nop == OFLOW || table->tdie == OFLOW
-  	|| table->teat == OFLOW || table->tslp == OFLOW
-  	|| table->ntpme == OFLOW)
-  {
-  	puterr("ERR: Invalid Argument\n");
-  	return (NULL);
-  }
+	if (table->nop == -2 || table->tdie == -2
+		|| table->teat == -2 || table->tslp == -2
+		|| table->ntpme == -2)
+	{
+		puterr("Error: Invalid Argument\n");
+		return (-1);
+	}
+	return (1);
+}
+
+t_sim	*init_table(int ac, char **av)
+{
+	t_sim	*table;
+
+	table = (t_sim *) malloc(sizeof(t_sim));
+	if (table == NULL)
+		return (NULL);
+	if (init_values(ac, av, table) == -1)
+		return (NULL);
 	table->forks = init_forks(table);
 	if (table->forks == NULL)
 		return (NULL);

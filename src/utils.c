@@ -6,22 +6,20 @@
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 12:30:08 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/23 22:50:48 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/24 00:39:54 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
+#include "../inc/philo.h"
 
 void	puterr(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 		write(2, &str[i++], 1);
 }
-
 
 int	ft_is_number(char *n)
 {
@@ -41,11 +39,11 @@ int	ft_check(unsigned long pt, int s)
 	if (s == -1)
 		return (0);
 	else if (pt > 2147483647)
-		return (OFLOW);
+		return (-2);
 	return (pt * s);
 }
 
-int		ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int	i;
 	int	s;
@@ -54,8 +52,8 @@ int		ft_atoi(const char *str)
 	i = 0;
 	s = 1;
 	res = 0;
-	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t' ||
-			str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
+	while (str[i] == ' ' || str[i] == '\n' || str[i] == '\t'
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == '\r')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{

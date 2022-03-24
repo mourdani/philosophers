@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/23 22:46:42 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/23 22:47:15 by mourdani         ###   ########.fr       */
+/*   Created: 2022/02/27 22:46:42 by mourdani          #+#    #+#             */
+/*   Updated: 2022/03/24 01:12:37 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
 void	print_action(t_sim *table, int pid, char *str)
 {
@@ -30,7 +30,7 @@ void	go_eat(t_philo *philo)
 	print_action(philo->table, philo->pid, "is eating\n");
 	philo->last_eat = time_ms();
 	philo->is_eating = 1;
-	usleep(philo->table->teat * 1000);
+	usleep(philo->table->teat * 1000 - 16000);
 	while (time_ms() - philo->last_eat < philo->table->teat)
 		continue ;
 	philo->nta++;
@@ -47,7 +47,7 @@ void	go_sleep(t_philo *philo)
 
 	print_action(philo->table, philo->pid, "is sleeping\n");
 	time = time_ms();
-	usleep(philo->table->tslp * 1000);
+	usleep(philo->table->tslp * 1000 - 16000);
 	while (time_ms() - time < philo->table->tslp)
 		continue ;
 	return ;
