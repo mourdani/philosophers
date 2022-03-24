@@ -6,7 +6,7 @@
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 01:21:41 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/24 00:52:40 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/24 23:48:32 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	*routine(void *ptr)
 {
 	t_philo	*philo;
 
+	pthread_detach(pthread_self());
 	philo = (t_philo *)ptr;
 	while (philo->table->death)
 	{
@@ -62,6 +63,7 @@ void	*is_death(void *ptr)
 {
 	t_philo	*philo;
 
+	pthread_detach(pthread_self());
 	philo = (t_philo *)ptr;
 	while (philo->table->death)
 	{

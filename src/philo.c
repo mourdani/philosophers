@@ -6,7 +6,7 @@
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 20:01:59 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/24 00:32:19 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/24 22:48:37 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_args(int ac, char **av)
 	}
 	while (++i < ac)
 	{
-		if (av[i][0] == '-' && ft_is_number(av[i]) != 0)
+		if (av[i][0] == '-' || ft_is_number(av[i]) == 1)
 		{
 			puterr("Error: Invalid Argument\n");
 			return (1);

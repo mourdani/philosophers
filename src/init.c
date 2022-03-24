@@ -6,7 +6,7 @@
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/23 23:36:31 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/24 00:50:19 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/03/24 22:34:45 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int	init_values(int ac, char **av, t_sim *table)
 	table->ntpme = -1;
 	table->death = 1;
 	if (ac - 1 == 5)
+	{
 		table->ntpme = ft_atoi(av[5]);
+		if (table->ntpme == 0)
+			return (-1);
+	}
 	if (table->nop == -2 || table->tdie == -2
 		|| table->teat == -2 || table->tslp == -2
 		|| table->ntpme == -2)

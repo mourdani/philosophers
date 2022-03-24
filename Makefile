@@ -10,7 +10,7 @@ OBJ	= ${patsubst src/%, obj/%, $(SRC:.c=.o)}
 
 CC	= cc
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=thread
 
 CLEAN_O	= @echo "Object files removed."
 CLEAN_A	= @echo "Environemment reset succefully."
