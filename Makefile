@@ -19,7 +19,7 @@ DONE	= @echo "Philo is ready to use!"
 
 
 $(NAME): obj $(OBJ)
-	@$(CC) $(CFLAGS) $(GFLAG) -o $(NAME) $(OBJ)
+	@$(CC) $(CFLAGS) $(GFLAG) -lpthread -o $(NAME) $(OBJ)
 	$(DONE)
 
 all:	 $(NAME)
