@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 22:46:42 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/28 00:27:16 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:44:20 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	go_eat(t_philo *philo)
 	if (philo->info.nop == 1)
 		return (0);
 	pthread_mutex_lock(&philo->table->forks[philo->r_f]);
-	print_action(philo, philo->pid, "Has taken a fork right\n");
+	print_action(philo, philo->pid, "Has taken a right fork\n");
 	pthread_mutex_lock(&philo->table->forks[philo->l_f]);
-	print_action(philo, philo->pid, "Has taken a fork left\n");
+	print_action(philo, philo->pid, "Has taken a left fork\n");
 	pthread_mutex_lock(&philo->eating);
 	print_action(philo, philo->pid, "is eating\n");
 	philo->last_eat = time_ms();
