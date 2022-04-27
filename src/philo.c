@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/24 20:01:59 by mourdani          #+#    #+#             */
-/*   Updated: 2022/03/27 23:48:59 by mourdani         ###   ########.fr       */
+/*   Created: 2022/04/27 07:13:25 by mourdani          #+#    #+#             */
+/*   Updated: 2022/04/27 07:13:27 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,15 @@ int	check_args(int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	t_sim	*table;
+	t_sim	table;
 
-	table = ft_memalloc(sizeof(t_sim));
 	if (check_args(ac, av) != 0)
 		return (1);
-	table = init_table(av, ac, table);
-	if (table->philo == NULL)
+	if (init_table(&table, ac, av) == 1)
 		return (1);
-	init_threads(table);
-	usleep(1000);
-	free(table->philo);
-	free(table->forks);
-	free(table);
+	init_threads(&table);
+	join_threads(&table);
+	unlock_and_destroy_mutex(&table);
+	free_all(&table);
 	return (0);
 }

@@ -3,56 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/23 23:36:31 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/01 03:30:47 by mourdani         ###   ########.fr       */
+/*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
+/*   Updated: 2022/04/27 07:13:22 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	init_philos(t_sim *table)
+int	init_table(t_sim *table, int ac, char **av)
 {
-	int	i;
-
-	i = -1;
-	while (++i < table->info.nop)
-	{
-		table->philo[i].nta = 0;
-		table->philo[i].is_eating = 0;
-		table->philo[i].r_f = i;
-		table->philo[i].l_f = (i + 1) % table->info.nop;
-		table->philo[i].pid = i + 1;
-		table->philo[i].info = table->info;
-		table->philo[i].table = table;
-		table->philo[i].end = 1;
-		table->philo[i].cdt = 1;
-		pthread_mutex_init(&table->forks[i], NULL);
-		pthread_mutex_init(&table->philo[i].eating, NULL);
-	}
-}
-
-t_sim	*init_table(char **av, int ac, t_sim *table)
-{
-	table->philo = ft_memalloc(sizeof(t_philo) * (ft_atoi(av[1]) + 1));
-	if (table->philo == NULL)
-		return (NULL);
-	table->forks = ft_memalloc(sizeof(pthread_mutex_t) \
-		* (ft_atoi(av[1]) + 1));
-	if (table->forks == NULL)
-		return (NULL);
-	pthread_mutex_init(&table->write, NULL);
-	table->alive = 1;
-	table->stop = 1;
-	table->st = time_ms();
 	table->info.nop = ft_atoi(av[1]);
 	table->info.tdie = ft_atoi(av[2]);
 	table->info.teat = ft_atoi(av[3]);
 	table->info.tsleep = ft_atoi(av[4]);
+	table->dead = 0;
 	table->info.ntpme = -1;
 	if (ac == 6)
 		table->info.ntpme = ft_atoi(av[5]);
 	init_philos(table);
-	return (table);
+	return (0);
+}
+
+void	init_philos(t_sim *table)
+{
+	int		i;
+	t_philo	*philos;
+	int				nop;
+	pthread_mutex_t	*mutex;
+
+	i = 0;
+	nop = table->info.nop;
+	mutex = malloc(sizeof(pthread_mutex_t) * nop);
+	while (nop--)
+		pthread_mutex_init(&mutex[nop], NULL);
+	pthread_mutex_init(&table->write, NULL);
+	table->forks = mutex;
+	philos = malloc(sizeof(t_philo) * table->info.nop);
+	while (i < table->info.nop)
+	{
+		philos[i].pid = i;
+		philos[i].info.nop = table->info.nop;
+		philos[i].nta = 0;
+		philos[i].nta_1 = table->info.ntpme;
+		philos[i].info.teat = table->info.teat;
+		philos[i].info.tsleep = table->info.tsleep;
+		philos[i].info.tdie = table->info.tdie;
+		philos[i].last_eat = ft_time();
+		philos[i].limit_of_life = table->info.tdie;
+		philos[i].stop = 0;
+		philos[i].l_f = \
+			&table->forks[philos[i].pid];
+		philos[i].r_f = \
+			&table->forks[(philos[i].pid + 1) % table->info.nop];
+		philos[i].table = table;
+		i++;
+	}
+	table->philos = philos;
 }

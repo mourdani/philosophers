@@ -3,60 +3,136 @@
 /*                                                        :::      ::::::::   */
 /*   thread.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mourdani <mourdani@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/25 01:21:41 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/01 03:30:14 by mourdani         ###   ########.fr       */
+/*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
+/*   Updated: 2022/04/27 07:14:01 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	init_philo_threads(t_sim *table)
+
+void	init_threads(t_sim *table)
 {
-	int	i;
+	int			nop;
+	pthread_t	*threads;
+	pthread_t	s_tid;
 
-	i = -1;
-	while (++i < table->info.nop)
-	{
-		table->philo[i].last_eat = time_ms();
-		if (pthread_create(&table->philo[i].ph_thread, NULL, \
-			&routine, (void *)&table->philo[i]) != 0)
-			return ;
-		usleep(100);
-	}
-}
-
-void	init_dcheck_threads(t_sim *table)
-{
-	int	i;
-
-	i = -1;
-	while (++i < table->info.nop)
-	{
-		if (pthread_create(&table->philo[i].dcheck_thread, NULL, \
-			&death_checker, (void *)&table->philo[i]) != 0)
-			return ;
-		usleep(100);
-	}
+	nop = table->info.nop;
+	threads = malloc(sizeof(pthread_t) * nop);
+	while (nop--)
+		pthread_create(&threads[nop], \
+			NULL, routine, (void *)&table->philos[nop]);
+	pthread_create(&s_tid, NULL, death_checker, (void *)table->philos);
+	pthread_join(s_tid, NULL);
+	table->tids = threads;
 }
 
 void	join_threads(t_sim *table)
 {
-	int	i;
+	int	nop;
 
-	i = -1;
-	while (++i < table->info.nop)
+	nop = table->info.nop;
+	if (nop == 1)
+		pthread_mutex_unlock(&table->forks[0]);
+	while (nop)
 	{
-		pthread_join(table->philo[i].dcheck_thread, NULL);
-		pthread_join(table->philo[i].ph_thread, NULL);
+		nop--;
+		pthread_join(table->tids[nop], NULL);
 	}
 }
 
-void	init_threads(t_sim *table)
+int	count_meals(t_philo *philo)
 {
-	init_philo_threads(table);
-	init_dcheck_threads(table);
-	join_threads(table);
-	return ;
+	int	flag_enough;
+	int	i;
+
+	if (philo->nta != -1 && philo->nta_1 > 0)
+	{
+		flag_enough = 1;
+		i = -1;
+		while (++i < philo->info.nop)
+			if (philo[i].nta < philo->nta_1)
+				flag_enough = 0;
+		if (flag_enough == 1)
+		{
+			i = -1;
+			while (i < philo[i].info.nop)
+			{
+				philo[i].stop = 1;
+				i++;
+			}
+			return (1);
+		}
+	}
+	return (0);
+}
+
+void	print_died(t_philo *philo, int i)
+{
+	philo->table->dead = 1;
+	pthread_mutex_lock(&philo->write);
+	printf("%ld %d died\n", ft_time() - philo->st,
+		philo[i].pid + 1);
+	i = -1;
+	while (i < philo[i].info.nop)
+	{
+		philo[i].stop = 1;
+		i++;
+	}
+}
+
+void	*death_checker(void *table)
+{
+	t_philo	*philo;
+	long	time_now;
+	int		i;
+
+	philo = (t_philo *)table;
+	i = 0;
+	while (philo[i].stop == 0)
+	{
+		i = -1;
+		while (++i < philo->info.nop)
+		{
+			time_now = ft_time();
+			if (time_now - philo[i].last_eat > philo[i].limit_of_life)
+			{
+				print_died(philo, i);
+				pthread_mutex_unlock(&philo->write);
+				return (NULL);
+			}
+		}
+		if (count_meals(philo) || philo->stop)
+			return (NULL);
+	}
+	return (NULL);
+}
+
+void	*routine(void *table)
+{
+	t_philo		*philo;
+
+	philo = (t_philo *)table;
+	philo->last_eat = ft_time();
+	philo->st = ft_time();
+	while (!philo->table->dead)
+	{
+		if (philo->table->dead || philo->stop || count_meals(philo))
+			return (NULL);
+		take_forks(philo);
+		if (philo->table->dead || philo->stop || count_meals(philo))
+			return (NULL);
+		go_eat(philo);
+		if (philo->table->dead || philo->stop || count_meals(philo))
+			return (NULL);
+		go_sleep(philo);
+		if (philo->table->dead || philo->stop || count_meals(philo))
+			return (NULL);
+		go_think(philo);
+		if (philo->table->dead || philo->stop || count_meals(philo))
+			return (NULL);
+	}
+	return (NULL);
 }

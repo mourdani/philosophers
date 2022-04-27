@@ -5,21 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 14:23:24 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/26 14:23:27 by mourdani         ###   ########.fr       */
+/*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
+/*   Updated: 2022/04/27 07:15:07 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PHILO_H
 # define PHILO_H
 
 # include <unistd.h>
-# include <stdio.h>
-# include <sys/wait.h>
-# include <stdlib.h>
-# include <fcntl.h>
 # include <string.h>
+# include <stdio.h>
+# include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
 
@@ -34,42 +31,56 @@ typedef struct s_info
 
 typedef struct s_philo
 {
-	pthread_t		ph_thread;
-	pthread_t		dcheck_thread;
-	pthread_mutex_t	eating;
+	pthread_mutex_t	write;
+	pthread_mutex_t	*l_f;
+	pthread_mutex_t	*r_f;
 	int				pid;
 	int				nta;
-	int				l_f;
-	int				r_f;
-	int				is_eating;
-	long long		last_eat;
-	t_info			info;
+	int				nta_1;
+	time_t			last_eat;
+
+	time_t			limit_of_life;
+	int				stop;
+	time_t			st;
+	t_info	info;
 	struct s_sim	*table;
-	int				end;
-	int				cdt;
-}				t_philo;
+}					t_philo;
 
 typedef struct s_sim
 {
-	t_philo			*philo;
+	pthread_t		*tids;
+	t_philo			*philos;
+	int				pid;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
-	int				alive;
-	int				stop;
-	long long		st;
-	t_info			info;
-}				t_sim;
+	int				dead;
+	time_t			st;
+	t_info	info;
+}					t_sim;
 
-t_sim			*init_table(char **argv, int argc, t_sim *philo);
-void			init_threads(t_sim *table);
-void			*routine(void *philo);
-void			*death_checker(void *philo);
+void	take_forks(t_philo *philo);
+void	go_eat(t_philo *philo);
+void	go_sleep(t_philo *philo);
+void	go_think(t_philo *philo);
 
-void			print_action(t_philo *phil, int pid, char *str);
-int				ft_atoi(const char *str);
-void			*ft_memalloc(size_t size);
-void			puterr(char *str);
-int				ft_is_number(char *str);
-long long		time_ms(void);
+long	ft_time(void);
+void	ft_usleep(int ms);
+int		ft_atoi(const char *str);
+int		count_meals(t_philo *philo);
+
+void	init_threads(t_sim *table);
+void	join_threads(t_sim *table);
+void	*death_checker(void *table);
+void	*routine(void *table);
+
+void	init_philos(t_sim *table);
+void	ft_init_mutex(t_sim *table);
+int		init_table(t_sim *table, int ac, char **av);
+
+void	ft_check_args(void);
+void	free_all(t_sim *table);
+void	unlock_and_destroy_mutex(t_sim *table);
+void	puterr(char *str);
+int	ft_is_number(char *n);
 
 #endif
