@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/27 07:13:22 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:55:22 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ int	init_table(t_sim *table, int ac, char **av)
 	table->info.ntpme = -1;
 	if (ac == 6)
 		table->info.ntpme = ft_atoi(av[5]);
+	if (table->info.ntpme == 0)
+		return (1);
+	else if (table->info.nop == 1)
+	{
+		usleep(table->info.tdie);
+		printf("%ld %d died\n", (long int)table->info.tdie, 1);
+		return (1);
+	}
 	init_philos(table);
 	return (0);
 }
@@ -44,9 +52,9 @@ void	init_philos(t_sim *table)
 	while (i < table->info.nop)
 	{
 		philos[i].pid = i;
-		philos[i].info.nop = table->info.nop;
 		philos[i].nta = 0;
 		philos[i].nta_1 = table->info.ntpme;
+		philos[i].info.nop = table->info.nop;
 		philos[i].info.teat = table->info.teat;
 		philos[i].info.tsleep = table->info.tsleep;
 		philos[i].info.tdie = table->info.tdie;
