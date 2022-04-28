@@ -6,12 +6,11 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/27 07:14:01 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/28 20:23:13 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
 
 void	init_threads(t_sim *table)
 {

@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/28 19:55:22 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/28 20:28:37 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	init_table(t_sim *table, int ac, char **av)
 
 void	init_philos(t_sim *table)
 {
-	int		i;
-	t_philo	*philos;
+	int				i;
 	int				nop;
+	t_philo			*philos;
 	pthread_mutex_t	*mutex;
 
 	i = 0;

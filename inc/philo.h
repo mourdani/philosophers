@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/27 07:15:07 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/28 20:27:39 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_philo
 	time_t			limit_of_life;
 	int				stop;
 	time_t			st;
-	t_info	info;
+	t_info			info;
 	struct s_sim	*table;
 }					t_philo;
 
@@ -55,7 +55,7 @@ typedef struct s_sim
 	pthread_mutex_t	*forks;
 	int				dead;
 	time_t			st;
-	t_info	info;
+	t_info			info;
 }					t_sim;
 
 void	take_forks(t_philo *philo);
@@ -81,6 +81,6 @@ void	ft_check_args(void);
 void	free_all(t_sim *table);
 void	unlock_and_destroy_mutex(t_sim *table);
 void	puterr(char *str);
-int	ft_is_number(char *n);
+int		ft_is_number(char *n);
 
 #endif
