@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/29 08:44:26 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/29 19:59:47 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,28 @@ int	init_table(t_sim *table, int ac, char **av)
 	return (0);
 }
 
-void	init_philos(t_sim *table)
+void	init_mutex(t_sim *table)
 {
-	int				i;
 	int				nop;
-	t_philo			*philos;
 	pthread_mutex_t	*mutex;
 
-	i = 0;
 	nop = table->info.nop;
 	mutex = malloc(sizeof(pthread_mutex_t) * nop);
 	while (nop--)
 		pthread_mutex_init(&mutex[nop], NULL);
 	pthread_mutex_init(&table->write, NULL);
 	table->forks = mutex;
+}
+
+void	init_philos(t_sim *table)
+{
+	int				i;
+	t_philo			*philos;
+
+	i = -1;
+	init_mutex(table);
 	philos = malloc(sizeof(t_philo) * table->info.nop);
-	while (i < table->info.nop)
+	while (++i < table->info.nop)
 	{
 		philos[i].pid = i;
 		philos[i].nta = 0;
@@ -66,7 +72,6 @@ void	init_philos(t_sim *table)
 		philos[i].r_f = \
 			&table->forks[(philos[i].pid + 1) % table->info.nop];
 		philos[i].table = table;
-		i++;
 	}
 	table->philos = philos;
 }

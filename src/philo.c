@@ -6,11 +6,20 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:25 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/27 07:13:27 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:02:02 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	puterr(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		write(2, &str[i++], 1);
+}
 
 int	check_args(int ac, char **av)
 {

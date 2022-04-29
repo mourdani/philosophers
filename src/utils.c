@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:41 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/27 07:13:45 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/29 20:05:53 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_usleep(int ms)
 	long	time;
 
 	time = ft_time();
-	usleep(ms * 920);
+	usleep(ms * 1000);
 	while (ft_time() < time + ms)
 		usleep(ms * 3);
 }
@@ -61,15 +61,6 @@ int	ft_atoi(const char *str)
 		++str;
 	}
 	return (res * i);
-}
-
-void	puterr(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '\0')
-		write(2, &str[i++], 1);
 }
 
 int	ft_is_number(char *n)
