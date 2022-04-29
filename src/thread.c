@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/28 20:23:13 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/29 08:44:44 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,33 +104,6 @@ void	*death_checker(void *table)
 			}
 		}
 		if (count_meals(philo) || philo->stop)
-			return (NULL);
-	}
-	return (NULL);
-}
-
-void	*routine(void *table)
-{
-	t_philo		*philo;
-
-	philo = (t_philo *)table;
-	philo->last_eat = ft_time();
-	philo->st = ft_time();
-	while (!philo->table->dead)
-	{
-		if (philo->table->dead || philo->stop || count_meals(philo))
-			return (NULL);
-		take_forks(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
-			return (NULL);
-		go_eat(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
-			return (NULL);
-		go_sleep(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
-			return (NULL);
-		go_think(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
 			return (NULL);
 	}
 	return (NULL);

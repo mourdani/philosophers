@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/28 20:28:37 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/29 08:44:26 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	init_table(t_sim *table, int ac, char **av)
 		return (1);
 	else if (table->info.nop == 1)
 	{
-		usleep(table->info.tdie);
+		usleep(table->info.tdie * 1000);
 		printf("%ld %d died\n", (long int)table->info.tdie, 1);
 		return (1);
 	}
