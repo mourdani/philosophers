@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/29 08:44:44 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:12:55 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,38 +42,16 @@ void	join_threads(t_sim *table)
 	}
 }
 
-int	count_meals(t_philo *philo)
-{
-	int	flag_enough;
-	int	i;
-
-	if (philo->nta != -1 && philo->nta_1 > 0)
-	{
-		flag_enough = 1;
-		i = -1;
-		while (++i < philo->info.nop)
-			if (philo[i].nta < philo->nta_1)
-				flag_enough = 0;
-		if (flag_enough == 1)
-		{
-			i = -1;
-			while (i < philo[i].info.nop)
-			{
-				philo[i].stop = 1;
-				i++;
-			}
-			return (1);
-		}
-	}
-	return (0);
-}
-
 void	print_died(t_philo *philo, int i)
 {
+	int	total_nta;
+
 	philo->table->dead = 1;
 	pthread_mutex_lock(&philo->write);
-	printf("%ld %d died\n", ft_time() - philo->st,
-		philo[i].pid + 1);
+	total_nta = philo->table->info.ntpme * philo->table->info.nop;
+	if (philo->table->total_nta != total_nta)
+		printf("%ld %d died\n", ft_time() - philo->st,
+			philo[i].pid + 1);
 	i = -1;
 	while (i < philo[i].info.nop)
 	{
@@ -82,13 +60,13 @@ void	print_died(t_philo *philo, int i)
 	}
 }
 
-void	*death_checker(void *table)
+void	*death_checker(void *philos)
 {
 	t_philo	*philo;
 	long	time_now;
 	int		i;
 
-	philo = (t_philo *)table;
+	philo = (t_philo *)philos;
 	i = 0;
 	while (philo[i].stop == 0)
 	{
@@ -103,8 +81,6 @@ void	*death_checker(void *table)
 				return (NULL);
 			}
 		}
-		if (count_meals(philo) || philo->stop)
-			return (NULL);
 	}
 	return (NULL);
 }

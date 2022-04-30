@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/28 20:27:39 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/30 18:31:29 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_sim
 	pthread_mutex_t	write;
 	pthread_mutex_t	*forks;
 	int				dead;
+	int				total_nta;
 	time_t			st;
 	t_info			info;
 }					t_sim;

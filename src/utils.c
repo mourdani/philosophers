@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:41 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/29 20:05:53 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:12:20 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,7 @@ static int	ft_isspace(int c)
 
 void	ft_usleep(int ms)
 {
-	long	time;
-
-	time = ft_time();
 	usleep(ms * 1000);
-	while (ft_time() < time + ms)
-		usleep(ms * 3);
 }
 
 int	ft_atoi(const char *str)

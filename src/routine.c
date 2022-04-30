@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:30 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/29 08:27:26 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:06:46 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	go_eat(t_philo *philo)
 	printf("%ld %d is eating\n", \
 		ft_time() - philo->st, philo->pid + 1);
 	pthread_mutex_unlock(&philo->write);
-	philo->nta += 1;
+	philo->nta++;
+	philo->table->total_nta++;
 	philo->last_eat = ft_time();
 	ft_usleep(philo->info.teat);
 	pthread_mutex_unlock(philo->l_f);
@@ -65,28 +66,30 @@ void	go_think(t_philo *philo)
 	pthread_mutex_unlock(&philo->write);
 }
 
-void	*routine(void *table)
+void	*routine(void *philos)
 {
 	t_philo		*philo;
+	int		total_nta;
 
-	philo = (t_philo *)table;
-	philo->last_eat = ft_time();
+	philo = (t_philo *)philos;
 	philo->st = ft_time();
+	philo->last_eat = philo->st;
+	total_nta = philo->table->info.ntpme * philo->table->info.nop;
 	while (!philo->table->dead)
 	{
-		if (philo->table->dead || philo->stop || count_meals(philo))
+		if (philo->table->dead || philo->stop || philo->table->total_nta == total_nta)
 			return (NULL);
 		take_forks(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
+		if (philo->table->dead || philo->stop || philo->table->total_nta == total_nta)
 			return (NULL);
 		go_eat(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
+		if (philo->table->dead || philo->stop || philo->table->total_nta == total_nta)
 			return (NULL);
 		go_sleep(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
+		if (philo->table->dead || philo->stop || philo->table->total_nta == total_nta)
 			return (NULL);
 		go_think(philo);
-		if (philo->table->dead || philo->stop || count_meals(philo))
+		if (philo->table->dead || philo->stop || philo->table->total_nta == total_nta)
 			return (NULL);
 	}
 	return (NULL);
