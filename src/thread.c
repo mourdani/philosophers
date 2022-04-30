@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/30 19:12:55 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:30:49 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ void	print_died(t_philo *philo, int i)
 		philo[i].stop = 1;
 		i++;
 	}
+}
+
+int	check_nta(void *philos)
+{
+	int			total_nta;
+	t_philo		*philo;
+
+	philo = (t_philo *)philos;
+	total_nta = philo->table->info.ntpme * philo->table->info.nop;
+	if (philo->table->total_nta == total_nta)
+		return (1);
+	return (0);
 }
 
 void	*death_checker(void *philos)

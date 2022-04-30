@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/30 18:31:29 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/04/30 19:31:21 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int		count_meals(t_philo *philo);
 
 void	init_threads(t_sim *table);
 void	join_threads(t_sim *table);
+int		check_nta(void *philos);
 void	*death_checker(void *table);
 void	*routine(void *table);
 
