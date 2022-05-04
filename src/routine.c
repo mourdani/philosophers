@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:30 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/30 19:32:18 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/04 09:02:44 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	*routine(void *philos)
 	t_philo		*philo;
 
 	philo = (t_philo *)philos;
+	philo->last_eat = ft_time();
 	philo->st = ft_time();
-	philo->last_eat = philo->st;
 	while (!philo->table->dead)
 	{
 		if (philo->table->dead || philo->stop || check_nta(philos))
