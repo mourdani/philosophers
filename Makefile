@@ -19,21 +19,18 @@ CLEAN_A	= @echo "Environemment reset succefully."
 DONE	= @echo "Philo is ready to use!"
 
 
-$(NAME): obj $(OBJ)
+$(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(THREAD) -o $(NAME) $(OBJ)
 	$(DONE)
 
-debug: obj $(OBJ)
-	@$(CC) $(CFLAGS) $(GFLAG) $(THREAD) -o $(NAME) $(OBJ)
-	$(DONE)
+#debug: obj $(OBJ)
+#	@$(CC) $(CFLAGS) $(GFLAG) $(THREAD) -o $(NAME) $(OBJ)
+#	$(DONE)
 
 all:	 $(NAME)
 
-
-obj:
-	@mkdir -p obj
-
 obj/%.o: src/%.c
+	@mkdir -p obj
 	@$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
