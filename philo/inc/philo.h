@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/30 19:31:21 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/13 00:26:28 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_info
 
 typedef struct s_philo
 {
+	//pthread_mutex_t	write;
 	pthread_mutex_t	write;
 	pthread_mutex_t	*l_f;
 	pthread_mutex_t	*r_f;

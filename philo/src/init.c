@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/04/30 18:50:37 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/13 01:30:53 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,12 @@ int	init_table(t_sim *table, int ac, char **av)
 		return (1);
 	else if (table->info.nop == 1)
 	{
+		printf("0 1 has taken a fork\n");
 		usleep(table->info.tdie * 1000);
 		printf("%ld %d died\n", (long int)table->info.tdie, 1);
 		return (1);
 	}
+	table->total_nta = 0;
 	init_philos(table);
 	return (0);
 }
