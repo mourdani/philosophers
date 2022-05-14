@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/13 00:18:31 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/14 08:28:57 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_died(t_philo *philo, int i)
 	philo->table->dead = 1;
 	pthread_mutex_lock(&philo->table->write);
 	total_nta = philo->table->info.ntpme * philo->table->info.nop;
-	if (philo->table->total_nta != total_nta)
+	if ((philo->info.nop) != philo->table->total_nta)
 		printf("%ld %d died\n", ft_time() - philo->st,
 			philo[i].pid + 1);
 	i = -1;
@@ -62,12 +62,10 @@ void	print_died(t_philo *philo, int i)
 
 int	check_nta(void *philos)
 {
-	int			total_nta;
 	t_philo		*philo;
 
 	philo = (t_philo *)philos;
-	total_nta = philo->table->info.ntpme * philo->table->info.nop;
-	if (philo->table->total_nta == total_nta)
+	if ((philo->info.nop) == philo->table->total_nta)
 		return (1);
 	return (0);
 }
