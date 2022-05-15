@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/13 01:30:53 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 09:39:20 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	init_table(t_sim *table, int ac, char **av)
 	table->info.tdie = ft_atoi(av[2]);
 	table->info.teat = ft_atoi(av[3]);
 	table->info.tsleep = ft_atoi(av[4]);
-	table->dead = 0;
 	table->info.ntpme = -1;
 	if (ac == 6)
 		table->info.ntpme = ft_atoi(av[5]);
@@ -46,6 +45,7 @@ void	init_mutex(t_sim *table)
 	while (nop--)
 		pthread_mutex_init(&mutex[nop], NULL);
 	pthread_mutex_init(&table->write, NULL);
+	pthread_mutex_init(&table->death, NULL);
 	table->forks = mutex;
 }
 
@@ -74,6 +74,7 @@ void	init_philos(t_sim *table)
 		philos[i].r_f = \
 			&table->forks[(philos[i].pid + 1) % table->info.nop];
 		philos[i].table = table;
+		pthread_mutex_init(&philos[i].last_e, NULL);
 	}
 	table->philos = philos;
 }

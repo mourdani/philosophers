@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:30 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/14 08:21:10 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 09:37:00 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	go_eat(t_philo *philo)
 		philo->table->total_nta++;
 //		printf("%d FINISHED ntpme. nta = %d\n\n\n", philo->pid, philo->nta);
 	}
+	pthread_mutex_lock(&philo->last_e);
 	philo->last_eat = ft_time();
+	pthread_mutex_unlock(&philo->last_e);
 	ft_usleep(philo->info.teat);
 	pthread_mutex_unlock(philo->l_f);
 	pthread_mutex_unlock(philo->r_f);
@@ -77,23 +79,25 @@ void	*routine(void *philos)
 	t_philo		*philo;
 
 	philo = (t_philo *)philos;
+	pthread_mutex_lock(&philo->last_e);
 	philo->last_eat = ft_time();
+	pthread_mutex_unlock(&philo->last_e);
 	philo->st = ft_time();
-	while (!philo->table->dead)
+	while (1)
 	{
-		if (philo->table->dead || philo->stop || check_nta(philos))
+		if (philo->stop || check_nta(philos))
 			return (NULL);
 		take_forks(philo);
-		if (philo->table->dead || philo->stop || check_nta(philos))
+		if (philo->stop || check_nta(philos))
 			return (NULL);
 		go_eat(philo);
-		if (philo->table->dead || philo->stop || check_nta(philos))
+		if (philo->stop || check_nta(philos))
 			return (NULL);
 		go_sleep(philo);
-		if (philo->table->dead || philo->stop || check_nta(philos))
+		if (philo->stop || check_nta(philos))
 			return (NULL);
 		go_think(philo);
-		if (philo->table->dead || philo->stop || check_nta(philos))
+		if (philo->stop || check_nta(philos))
 			return (NULL);
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:36 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/14 08:28:57 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 09:35:20 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_died(t_philo *philo, int i)
 {
 	int	total_nta;
 
-	philo->table->dead = 1;
+//	philo->table->dead = 1;
 	pthread_mutex_lock(&philo->table->write);
 	total_nta = philo->table->info.ntpme * philo->table->info.nop;
 	if ((philo->info.nop) != philo->table->total_nta)
@@ -83,13 +83,15 @@ void	*death_checker(void *philos)
 		i = -1;
 		while (++i < philo->info.nop)
 		{
-			time_now = ft_time();
-			if (time_now - philo[i].last_eat > philo[i].limit_of_life)
+			pthread_mutex_lock(&philo[i].last_e);
+			time_now = ft_time() - philo[i].last_eat;
+			if (time_now > philo[i].limit_of_life)
 			{
 				print_died(philo, i);
 				pthread_mutex_unlock(&philo->table->write);
 				return (NULL);
 			}
+			pthread_mutex_unlock(&philo[i].last_e);
 		}
 	}
 	return (NULL);

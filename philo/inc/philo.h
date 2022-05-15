@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/13 00:26:28 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 09:42:39 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ typedef struct s_info
 
 typedef struct s_philo
 {
-	//pthread_mutex_t	write;
-	pthread_mutex_t	write;
 	pthread_mutex_t	*l_f;
 	pthread_mutex_t	*r_f;
+	pthread_mutex_t	last_e;
 	int				pid;
 	int				nta;
 	int				nta_1;
@@ -49,14 +48,14 @@ typedef struct s_philo
 
 typedef struct s_sim
 {
+	pthread_mutex_t	write;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	death;
 	pthread_t		*tids;
 	t_philo			*philos;
 	int				pid;
-	pthread_mutex_t	write;
-	pthread_mutex_t	*forks;
-	int				dead;
 	int				total_nta;
-	time_t			st;
+	//time_t			st;
 	t_info			info;
 }					t_sim;
 
