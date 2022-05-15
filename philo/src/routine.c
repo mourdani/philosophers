@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:30 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/15 09:37:00 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 11:30:59 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,9 @@ void	go_eat(t_philo *philo)
 		ft_time() - philo->st, philo->pid + 1);
 	pthread_mutex_unlock(&philo->table->write);
 	philo->nta++;
-//	printf("philo %d . nta = %d\n", philo->pid, philo->nta);
-//	printf("ntpme = %d\n", philo->table->info.ntpme);
 	if (philo->nta == philo->table->info.ntpme)
 	{
 		philo->table->total_nta++;
-//		printf("%d FINISHED ntpme. nta = %d\n\n\n", philo->pid, philo->nta);
 	}
 	pthread_mutex_lock(&philo->last_e);
 	philo->last_eat = ft_time();

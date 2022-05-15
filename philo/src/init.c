@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:13:20 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/15 09:39:20 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 11:30:37 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void	init_philos(t_sim *table)
 		philos[i].last_eat = ft_time();
 		philos[i].limit_of_life = table->info.tdie;
 		philos[i].stop = 0;
-		philos[i].l_f = \
-			&table->forks[philos[i].pid];
+		philos[i].l_f = &table->forks[philos[i].pid];
 		philos[i].r_f = \
 			&table->forks[(philos[i].pid + 1) % table->info.nop];
 		philos[i].table = table;

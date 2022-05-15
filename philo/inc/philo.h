@@ -6,7 +6,7 @@
 /*   By: mourdani <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/27 07:15:00 by mourdani          #+#    #+#             */
-/*   Updated: 2022/05/15 09:42:39 by mourdani         ###   ########.fr       */
+/*   Updated: 2022/05/15 11:31:15 by mourdani         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_sim
 	t_philo			*philos;
 	int				pid;
 	int				total_nta;
-	//time_t			st;
 	t_info			info;
 }					t_sim;
 
